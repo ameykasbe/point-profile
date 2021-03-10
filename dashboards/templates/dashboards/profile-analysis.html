@@ -5,30 +5,141 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Analysis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.4.0/dist/chartjs-plugin-datalabels.min.js"></script> 
 </head>
 <body>
-    <h1>Profile Analysis</h1>
-    <div class="container">
-        <canvas id="myCanvas"> 
-        </canvas>
-    </div>
+    <div class="grey darken-4 white-text">
+        <div class="container">
+            <div class="row s12 center">
+                <img src="{{user_info.avatar_url}}" alt="" class="circle" height="200" width="200">
+                <h3>{{user_info.name}}</h3>
+                <h5><a href="{{user_info.html_url}}">{{user_info.github_id}}</a></h5>
+                <h5>{{user_info.bio}}</h5> 
+            </div>
+            <div class="row">
+                <div class="col s2 offset-s3">
+                    <p><i class="material-icons left">work</i>{{user_info.company}}</p>
+                </div>
+                <div class="col s2">
+                    <p><i class="material-icons left">location_on</i>{{user_info.location}}</p>
+                </div>
+                <div class="col s2">
+                    <p><i class="material-icons left">date_range</i>{{user_info.created_at}}</p>
+                </div>
+                
+            </div>
+
+            <div class="row">
+                <div class="col m6 s12">
+                    
+                    <div class="card">
+                        <h4 class="black-text">Repositores per language</h4>
+                        <canvas id="projects-language"> 
+                        </canvas>
+                    </div>
+                    
+                </div>
+                <div class="col m6 s12">
+                    
+                    <div class="card">
+                        <h4 class="black-text">Languages Distribution</h4>
+                        <canvas id="languages-distribution"> 
+                        </canvas>
+                    </div>
+                </div>
+            </div>    
+        </div>
+   </div>
 
     <script>
-        let myCanvas = document.getElementById('myCanvas').getContext('2d');
+        let projectsLanguage = document.getElementById('projects-language').getContext('2d');
 
     // Global options
     Chart.defaults.global.defaultFontFamily = 'Lato';
     Chart.defaults.global.defaultFontSize = 18;
     Chart.defaults.global.defaultFontColor  = '#777';
 
-    let myChart = new Chart(myCanvas, {
+    let myChart = new Chart(projectsLanguage, {
         type: 'bar',// bar, horizontalBar, pie, line, doughnut, radar, polarArea
         data: {
             labels: {{languages | safe}},
             datasets:[{
-                label: 'Population',
+                label: 'Repositores',
                 data: {{num_projects|safe}},
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(54, 162, 235, 0.6)',
+                    'rgba(255, 206, 86, 0.6)',
+                    'rgba(75, 192, 192, 0.6)',
+                    'rgba(153, 102, 255, 0.6)',
+                    'rgba(255, 159, 64, 0.6)',
+                    'rgba(255, 99, 132, 0.6)'
+                ],
+                borderWidth: 0,
+                borderColor: '#777',
+                hoverBorderWidth: 3,
+                hoverBorderColor: '#000'
+            }],
+            
+        },
+            options: {
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            display:true
+                        }
+                    }],
+                    yAxes: [{
+                        gridLines: {
+                            display:true
+                        },
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                },
+                title:{
+                    display: false,
+                    text: "Repositores per language",
+                    fontSize: 22
+                },
+                legend:{
+                    display: false,
+                    position: 'right',
+                    labels:{
+                        fontColor: '#000'
+                    }
+                },
+                layout:{
+                    padding: {
+                        left:50,
+                        right:0,
+                        bottom:0,
+                        top:0
+                    }
+                },
+                tooltips:{
+                    enabled:true
+                }
+            },
+        });
+
+    </script>
+    <script>
+        let languagesDistribution = document.getElementById('languages-distribution').getContext('2d');
+
+
+
+    let myChart2 = new Chart(languagesDistribution, {
+        type: 'pie',// bar, horizontalBar, pie, line, doughnut, radar, polarArea
+        data: {
+            labels: {{languages_distribution | safe}},
+            datasets:[{
+                label: 'Population',
+                data: {{bytes_per_language|safe}},
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.6)',
                     'rgba(54, 162, 235, 0.6)',
@@ -68,7 +179,23 @@
                 },
                 tooltips:{
                     enabled:true
+                },
+                plugins: {
+                    datalabels: {
+                        formatter: (value, ctx) => {
+                            let datasets = ctx.chart.data.datasets;
+                            if (datasets.indexOf(ctx.dataset) === datasets.length - 1) {
+                            let sum = datasets[0].data.reduce((a, b) => a + b, 0);
+                            let percentage = Math.round((value / sum) * 100) + '%';
+                            return percentage;
+                            } else {
+                            return percentage;
+                            }
+                        },
+                    color: '#fff',
+                    }       
                 }
+                
             },
         });
 
