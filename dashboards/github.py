@@ -17,20 +17,6 @@ def get_response_text_dict(url):
     return response_text_dict
 
 
-def get_languages(user):
-    """Returns a list of dictionaries of languages corresponding to different repositories of a user."""
-    url = "https://api.github.com/users/" + user + "/repos"
-    repos = get_response_text_dict(url)
-    if type(repos) == list:  # If no error occured.
-        languages_list = list()
-        for repo in repos:
-            languages_url = repo.get('languages_url')
-            languages = get_response_text_dict(languages_url)
-            languages_list.append(languages)
-        return languages_list
-    return repos  # If error occured, return the error.
-
-
 def get_languages_data(user):
     """Returns a dictionary with all the languages used by a user with key as the language and value as the number of projects."""
     """Returns a dictionary with all the languages used by a user with key as the language and value as the percentage of code written."""
