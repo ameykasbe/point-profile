@@ -60,14 +60,18 @@
             </div>
         </div>
         <div class="row">
+            {% for repo in repos_info %}
             <div class="col s6 m4">
-                <div class="card">
-                    <div class="card-content">
-                        <span class="card-title">Title</span>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Impedit ex reiciendis nobis neque nostrum voluptate dolor culpa optio iure maiores?
+                <a href="{{repo.html_url}}"></a>
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="card-title">{{repo.name}}</span>
+                            {{repo.description}}
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
+            {% endfor %}
         </div>
     </div>
     <script>
