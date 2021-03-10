@@ -30,7 +30,23 @@ def get_languages(user):
         return languages_list
     return repos  # If error occured, return the error.
 
-    # languages_list = [
+
+def get_languages_data(user):
+    """Returns a dictionary with all the languages used by a user with key as the language and value as the number of projects."""
+    """Returns a dictionary with all the languages used by a user with key as the language and value as the percentage of code written."""
+    # url = "https://api.github.com/users/" + user + "/repos"
+    # repos = get_response_text_dict(url)
+    # if type(repos) == list:  # If no error occured.
+    #     languages_list = list()
+    #     for repo in repos:
+    #         languages_url = repo.get('languages_url')
+    #         languages = get_response_text_dict(languages_url)
+    #         languages_list.append(languages)
+    #     repos_languages = languages_list
+    # else:
+    #     repos_languages = repos  # If error occurs, repos_language contains error message
+
+    # Format - repos_languages = [
     #     {'JavaScript': 94325, 'CSS': 7750, 'HTML': 821},
     #     {'Python': 10055, 'HTML': 4771, 'CSS': 274},
     #     {'HTML': 3499, 'Python': 2712},
@@ -41,12 +57,6 @@ def get_languages(user):
     #     {'Python': 7717, 'HTML': 3384}
     # ]
 
-
-def get_languages_data(user):
-    """Returns a dictionary with all the languages used by a user with key as the language and value as the number of projects."""
-    """Returns a dictionary with all the languages used by a user with key as the language and value as the percentage of code written."""
-
-    # repos_languages = get_languages(user)
     # if type(repos_languages) == list:
     #     projects_per_languages = dict()
     #     languages_distribution = dict()
