@@ -1,5 +1,6 @@
 import requests
 import json
+import pathlib
 
 username = 'ameykasbe'
 token = 'a5a027f83aa8227d835a7d7fcd408ed99d8ab9b8'
@@ -24,6 +25,9 @@ def get_repo_data(user):
     url = "https://api.github.com/users/" + user + "/repos"
     repo_response = get_response_text_dict(url)
 
+    # file_path = pathlib.Path(__file__).parent / 'repos_data.json'
+    # with open(file_path, 'r') as filename:
+    #     repo_response = json.load(filename)
     repos_languages = list()
     repos_info = list()
     for repo in repo_response:
@@ -37,6 +41,7 @@ def get_repo_data(user):
         repo_info['name'] = repo.get('name')
         repo_info['language'] = repo.get('language')
         repo_info['size'] = repo.get('size')
+        repo_info['stargazers_count'] = repo.get('stargazers_count')
         repos_info.append(repo_info)
 
     projects_per_languages = dict()
@@ -65,37 +70,7 @@ def get_user_info(user):
     """Returns user information."""
     url = "https://api.github.com/users/" + user
     user_info_response = get_response_text_dict(url)
-    # user_info_response = {
-    #     'login': 'anamayasarvate',
-    #     'id': 47415511,
-    #     'node_id': 'MDQ6VXNlcjQ3NDE1NTEx',
-    #     'avatar_url': 'https://avatars.githubusercontent.com/u/47415511?v=4',
-    #     'gravatar_id': '',
-    #     'url': 'https://api.github.com/users/anamayasarvate',
-    #     'html_url': 'https://github.com/anamayasarvate',
-    #     'followers_url': 'https://api.github.com/users/anamayasarvate/followers',
-    #     'following_url': 'https://api.github.com/users/anamayasarvate/following{/other_user}',
-    #     'gists_url': 'https://api.github.com/users/anamayasarvate/gists{/gist_id}',
-    #     'starred_url': 'https://api.github.com/users/anamayasarvate/starred{/owner}{/repo}',
-    #     'subscriptions_url': 'https://api.github.com/users/anamayasarvate/subscriptions',
-    #     'organizations_url': 'https://api.github.com/users/anamayasarvate/orgs',
-    #     'repos_url': 'https://api.github.com/users/anamayasarvate/repos',
-    #     'events_url': 'https://api.github.com/users/anamayasarvate/events{/privacy}',
-    #     'received_events_url': 'https://api.github.com/users/anamayasarvate/received_events',
-    #     'type': 'User',
-    #     'site_admin': False,
-    #     'name': 'Anamay Sarvate',
-    #     'company': None,
-    #     'blog': 'www.anamaysarvate.com',
-    #     'location': None,
-    #     'email': None,
-    #     'hireable': None,
-    #     'bio': 'Python/Django and MERN stack developer',
-    #     'twitter_username': None,
-    #     'public_repos': 12,
-    #     'public_gists': 0,
-    #     'followers': 0,
-    #     'following': 0,
-    #     'created_at': '2019-02-07T09:49:37Z',
-    #     'updated_at': '2021-03-09T15:06:51Z'}
+    # file_path = pathlib.Path(__file__).parent / 'user_info.json'
+    # with open(file_path, 'r') as filename:
+    #     user_info_response = json.load(filename)
     return user_info_response
