@@ -12,6 +12,8 @@
 </head>
 <body>
     <div class="grey darken-4 white-text">
+        <br>
+        <br>
         <div class="container">
             <div class="row s12 center">
                 <img src="{{user_info.avatar_url}}" alt="" class="circle" height="200" width="200">
@@ -36,7 +38,7 @@
                 <div class="col m6 s12">
                     
                     <div class="card">
-                        <h4 class="black-text">Repositores per language</h4>
+                        <h5 class="black-text">Repositores per language</h5>
                         <canvas id="projects-language"> 
                         </canvas>
                     </div>
@@ -45,7 +47,7 @@
                 <div class="col m6 s12">
                     
                     <div class="card">
-                        <h4 class="black-text">Languages Distribution</h4>
+                        <h5 class="black-text">Languages Distribution</h5>
                         <canvas id="languages-distribution"> 
                         </canvas>
                     </div>
@@ -56,22 +58,27 @@
    <div class="container">
         <div class="row">
             <div class="col s12">
-                <h3>Top Repositories</h3>
+                <h3>Top Repositories (By Stars)</h3>
             </div>
         </div>
         <div class="row">
             {% for repo in repos_info %}
             <div class="col s6 m4">
-                <a href="{{repo.html_url}}"></a>
-                    <div class="card">
+                <a href="{{repo.html_url}}" target="_blank">
+                    <div class="card black-text">
                         <div class="card-content">
-                            <span class="card-title">{{repo.name}}</span>
-                            {{repo.description}}
-                        </div>
+                            <span class="card-title"><b>{{repo.name}}</b></span>
+                            <div>{{repo.description}}</div>
+                            <br>
+                            <div class="left">{{repo.language}}</div>
+                            <div class="right">{{repo.size}}</div>
+                        </div> 
                     </div>
                 </a>
             </div>
             {% endfor %}
+
+
         </div>
     </div>
     <script>
