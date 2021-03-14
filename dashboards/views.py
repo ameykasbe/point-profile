@@ -5,7 +5,12 @@ from . import github as gh
 
 
 def input(request):
-    return render(request, 'dashboards/input.html')
+    limit, remaining = gh.check_limit()
+    context = {
+        'limit': limit,
+        'remaining': remaining
+    }
+    return render(request, 'dashboards/input.html', context)
 
 
 def profile_analysis(request):
@@ -13,7 +18,7 @@ def profile_analysis(request):
         user = request.POST.get('userid')
     else:
         return redirect('input')
-    projects_per_languages, lang_distribution, repos_info, headers = gh.get_repo_data(
+    projects_per_languages, lang_distribution, repos_info = gh.get_repo_data(
         user)
     # Projects per languages
     languages = [key for key in projects_per_languages]
@@ -34,11 +39,14 @@ def profile_analysis(request):
             repo['description'] = repo['description'][:101] + '...'
 
     # User info
-    user_info_response, headers = gh.get_user_info(user)
+    user_info_response = gh.get_user_info(user)
     user_info_response['github_id'] = '@' + user_info_response.get('login')
     created_at = user_info_response.get('created_at')
     created_at = datetime.datetime.fromisoformat(created_at[:-1])
     user_info_response['created_at'] = created_at.date()
+
+    # Checking limit
+    limit, remaining = gh.check_limit()
 
     context = {
         'languages': languages,
@@ -47,6 +55,7 @@ def profile_analysis(request):
         'bytes_per_language': bytes_per_language,
         'user_info': user_info_response,
         'repos_info': repos_info_sorted_stars,
-        'headers': headers,
+        'limit': limit,
+        'remaining': remaining
     }
     return render(request, 'dashboards/profile-analysis.html', context)

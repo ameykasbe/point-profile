@@ -6,6 +6,23 @@ html {
     background-color: rgb(26, 30, 34) ;
   }
 
+  .input-section{
+    height: 80%;
+    background-color: rgb(26, 30, 34) ;
+  }
+
+  .input-footer{
+    background-color: rgb(26, 30, 34) ;
+  }
+
+  .profile-chart{
+    background-color: rgb(26, 30, 34) ;
+  }
+
+  .requests-limit{
+    margin-right: 50px;
+    color: rgb(104, 111, 121);
+  }
 
   .hidden{
       display: none;

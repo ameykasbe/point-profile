@@ -2,9 +2,15 @@
 {% block content %}
     
 <body>
-    <div class="white-text">
-        <br>
-        <br>
+    <section class="section profile-chart white-text">
+        <div class="row">
+            <div class="col s12">
+                <div class="requests-limit">
+                    <h5>{{remaining}}/{{limit}}</h5>
+                    <p>Requests left</p>    
+                </div>
+            </div>
+        </div>
         <div class="container">
             <div class="row s12 center">
                 <img src="{{user_info.avatar_url}}" alt="" class="circle" height="200" width="200">
@@ -46,7 +52,7 @@
                 </div>
             </div>    
         </div>
-   </div>
+    </section>
    <section class="top-repo">
     <div class="container">
             <div class="row">
