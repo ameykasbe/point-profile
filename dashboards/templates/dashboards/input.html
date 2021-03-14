@@ -1,17 +1,22 @@
+{% extends 'dashboards/base.html' %}
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form method="POST" action="{% url 'profile-analysis' %}" >
-        {% csrf_token %}
-        <input type="text" name="userid">
-        <button type="submit">Submit</button>
-    </form>
+
+<body class="white-text valign-wrapper" >
+    <div class="container center">
+        <br>
+        <div class="row">
+            <div class="col s12 m6 offset-m3">
+                <form method="POST" action="{% url 'profile-analysis' %}" >
+                    {% csrf_token %}
+                    <i class="fab fa-github fa-4x"></i>
+                    <h4>Find Your PointProfile</h4>
+                    <div class="input-field">
+                        <input type="text" name="userid">
+                    </div>
+                    <button type="submit" class="btn waves-effect waves-light hidden">Submit</button>
+                </form>        
+            </div>
+        </div>
+    </div>    
 </body>
 {% endblock content %}
