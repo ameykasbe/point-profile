@@ -15,7 +15,7 @@ def get_response_text_dict(url):
     except Exception as e:
         print(e)
     response_text_dict = json.loads(response.text)
-    return response_text_dict
+    return response_text_dict, response.headers
 
 
 def get_repo_data(user):
@@ -23,7 +23,7 @@ def get_repo_data(user):
     """Returns a dictionary with all the languages used by a user with key as the language and value as the percentage of code written."""
 
     url = "https://api.github.com/users/" + user + "/repos"
-    repo_response = get_response_text_dict(url)
+    repo_response, headers = get_response_text_dict(url)
 
     # file_path = pathlib.Path(__file__).parent / 'repos_data.json'
     # with open(file_path, 'r') as filename:
@@ -32,7 +32,7 @@ def get_repo_data(user):
     repos_info = list()
     for repo in repo_response:
         languages_url = repo.get('languages_url')
-        languages = get_response_text_dict(languages_url)
+        languages, headers = get_response_text_dict(languages_url)
         repos_languages.append(languages)
 
         repo_info = dict()
@@ -57,7 +57,7 @@ def get_repo_data(user):
                 languages_distribution[language] += bytes_lang
             else:
                 languages_distribution[language] = bytes_lang
-    return projects_per_languages, languages_distribution, repos_info
+    return projects_per_languages, languages_distribution, repos_info, headers
 
     # projects_per_languages = {'JavaScript': 2,
     #                           'CSS': 4, 'HTML': 7, 'Python': 7}
@@ -69,8 +69,8 @@ def get_repo_data(user):
 def get_user_info(user):
     """Returns user information."""
     url = "https://api.github.com/users/" + user
-    user_info_response = get_response_text_dict(url)
+    user_info_response, headers = get_response_text_dict(url)
     # file_path = pathlib.Path(__file__).parent / 'user_info.json'
     # with open(file_path, 'r') as filename:
     #     user_info_response = json.load(filename)
-    return user_info_response
+    return user_info_response, headers

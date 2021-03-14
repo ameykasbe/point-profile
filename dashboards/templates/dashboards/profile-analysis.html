@@ -51,20 +51,20 @@
     <div class="container">
             <div class="row">
                 <div class="col s12">
-                    <h3>Top Repositories (By Stars)</h3>
+                    <h3 class="top-repo-title">Top Repositories (By Stars)</h3>
                 </div>
             </div>
             <div class="row">
                 {% for repo in repos_info %}
                 <div class="col s6 m4">
                     <a href="{{repo.html_url}}" target="_blank">
-                        <div class="card black-text">
+                        <div class="card black-text z-depth-3 hoverable">
                             <div class="card-content">
-                                <span class="card-title"><b>{{repo.name}}</b></span>
-                                <div>{{repo.description}}</div>
+                                <span class="card-title top-repo-title"><b>{{repo.name}}</b></span>
+                                <div class="blue-grey-text text-lighten-2">{{repo.description}}</div>
                                 <br>
-                                <div class="left">{{repo.language}}</div>
-                                <div class="right">{{repo.size}}</div>
+                                <div class="left blue-grey-text text-lighten-2">{{repo.language}}</div>
+                                <div class="right blue-grey-text text-lighten-2">{{repo.size}}</div>
                             </div> 
                         </div>
                     </a>
