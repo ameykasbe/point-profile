@@ -27,51 +27,54 @@
 
             <div class="row">
                 <div class="col m6 s12">
-                    
-                    <div class="card">
-                        <h5 class="black-text">Repositores per language</h5>
-                        <canvas id="projects-language"> 
-                        </canvas>
-                    </div>
-                    
+                    <div class="card center z-depth-5">
+                        <div class="card-content">
+                            <span class="card-title black-text"><b>Repositores per language</b></span> 
+                            <canvas id="projects-language"> 
+                            </canvas>   
+                        </div>
+                    </div> 
                 </div>
                 <div class="col m6 s12">
-                    
                     <div class="card">
-                        <h5 class="black-text">Languages Distribution</h5>
-                        <canvas id="languages-distribution"> 
-                        </canvas>
-                    </div>
+                        <div class="card-content">
+                            <span class="card-title black-text"><b>Languages Distribution</b></span> 
+                            <canvas id="languages-distribution"> 
+                            </canvas>   
+                        </div>
+                    </div> 
                 </div>
             </div>    
         </div>
    </div>
-   <div class="container">
-        <div class="row">
-            <div class="col s12">
-                <h3>Top Repositories (By Stars)</h3>
+   <section class="top-repo">
+    <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    <h3>Top Repositories (By Stars)</h3>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            {% for repo in repos_info %}
-            <div class="col s6 m4">
-                <a href="{{repo.html_url}}" target="_blank">
-                    <div class="card black-text">
-                        <div class="card-content">
-                            <span class="card-title"><b>{{repo.name}}</b></span>
-                            <div>{{repo.description}}</div>
-                            <br>
-                            <div class="left">{{repo.language}}</div>
-                            <div class="right">{{repo.size}}</div>
-                        </div> 
-                    </div>
-                </a>
-            </div>
-            {% endfor %}
+            <div class="row">
+                {% for repo in repos_info %}
+                <div class="col s6 m4">
+                    <a href="{{repo.html_url}}" target="_blank">
+                        <div class="card black-text">
+                            <div class="card-content">
+                                <span class="card-title"><b>{{repo.name}}</b></span>
+                                <div>{{repo.description}}</div>
+                                <br>
+                                <div class="left">{{repo.language}}</div>
+                                <div class="right">{{repo.size}}</div>
+                            </div> 
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
 
 
+            </div>
         </div>
-    </div>
+    </section>  
     <script>
         let projectsLanguage = document.getElementById('projects-language').getContext('2d');
 
@@ -176,12 +179,12 @@
         },
             options: {
                 title:{
-                    display: true,
-                    text: "Largets cities in MS",
+                    display: false,
+                    text: "Language Distribution",
                     fontSize: 25
                 },
                 legend:{
-                    display: false,
+                    display: true,
                     position: 'right',
                     labels:{
                         fontColor: '#000'

@@ -3,8 +3,12 @@ html {
   }
   body {
     height: 100%;
-    background-color: rgb(26, 30, 34) ;
+      
   }
   .hidden{
       display: none;
+  }
+
+  .top-repo{
+    background-color: rgba(246,248,250,255);
   }
