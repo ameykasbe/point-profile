@@ -1,0 +1,62 @@
+html {
+    height: 100%;
+  }
+  body {
+    height: 100%;
+    background-color: rgb(26, 30, 34) ;
+    font-family: 'Roboto', sans-serif;
+  }
+
+  .charts-row{
+    margin-bottom: 50px ;
+  }
+
+  .input-section{
+    height: 80%;
+    background-color: rgb(26, 30, 34) ;
+  }
+
+  .input-footer{
+    background-color: rgb(26, 30, 34) ;
+  }
+
+  .profile-chart{
+    background-color: rgb(26, 30, 34) ;
+  }
+
+  .requests-limit{
+    margin-right: 50px;
+    color: rgb(104, 111, 121);
+  }
+
+  .hidden{
+      display: none;
+  }
+
+  .top-repo{
+    background-color: rgba(246,248,250,255);
+  }
+ 
+  .profile-analysis-footer{
+    background-color: rgba(246,248,250,255);
+  }
+
+  .top-repo-row{
+    padding-top: 50px;
+  }
+
+  .top-repo-title{
+    color: rgb(36, 41, 46);
+  }
+  
+  .footer-text{
+    color: rgb(36, 41, 46);
+  }
+
+  .repo-row{
+    margin-bottom:0px;
+  }
+
+  .repo-card{
+    padding: 30px !important;
+  }
