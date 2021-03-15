@@ -4,6 +4,11 @@ html {
   body {
     height: 100%;
     background-color: rgb(26, 30, 34) ;
+    font-family: 'Roboto', sans-serif;
+  }
+
+  .charts-row{
+    margin-bottom: 50px ;
   }
 
   .input-section{
@@ -31,7 +36,27 @@ html {
   .top-repo{
     background-color: rgba(246,248,250,255);
   }
+ 
+  .profile-analysis-footer{
+    background-color: rgba(246,248,250,255);
+  }
+
+  .top-repo-row{
+    padding-top: 50px;
+  }
 
   .top-repo-title{
     color: rgb(36, 41, 46);
+  }
+  
+  .footer-text{
+    color: rgb(36, 41, 46);
+  }
+
+  .repo-row{
+    margin-bottom:0px;
+  }
+
+  .repo-card{
+    padding: 30px !important;
   }

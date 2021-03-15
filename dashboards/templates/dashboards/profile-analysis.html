@@ -31,8 +31,8 @@
                 
             </div>
 
-            <div class="row">
-                <div class="col m6 s12">
+            <div class="row charts-row">
+                <div class="col l6 s12">
                     <div class="card center z-depth-5">
                         <div class="card-content">
                             <span class="card-title black-text"><b>Repositores per language</b></span> 
@@ -41,7 +41,7 @@
                         </div>
                     </div> 
                 </div>
-                <div class="col m6 s12">
+                <div class="col l6 s12">
                     <div class="card">
                         <div class="card-content">
                             <span class="card-title black-text"><b>Languages Distribution</b></span> 
@@ -55,17 +55,17 @@
     </section>
    <section class="top-repo">
     <div class="container">
-            <div class="row">
+            <div class="row top-repo-row">
                 <div class="col s12">
-                    <h3 class="top-repo-title">Top Repositories (By Stars)</h3>
+                    <h4 class="top-repo-title">Top Repositories (By Stars)</h4>
                 </div>
             </div>
-            <div class="row">
+            <div class="row repo-row">
                 {% for repo in repos_info %}
-                <div class="col s6 m4">
+                <div class="col s12 m4">
                     <a href="{{repo.html_url}}" target="_blank">
                         <div class="card black-text z-depth-3 hoverable">
-                            <div class="card-content">
+                            <div class="card-content repo-card">
                                 <span class="card-title top-repo-title"><b>{{repo.name}}</b></span>
                                 <div class="blue-grey-text text-lighten-2">{{repo.description}}</div>
                                 <br>
@@ -80,7 +80,8 @@
 
             </div>
         </div>
-    </section>  
+    </section> 
+    
     <script>
         let projectsLanguage = document.getElementById('projects-language').getContext('2d');
 
