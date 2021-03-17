@@ -35,36 +35,8 @@ def get_repo_data(user):
     # file_path = pathlib.Path(__file__).parent / 'repos_data.json'
     # with open(file_path, 'r') as filename:
     #     repo_response = json.load(filename)
-    repos_languages = list()
-    repos_info = list()
-    for repo in repo_response:
-        languages_url = repo.get('languages_url')
-        languages = get_response_text_dict(languages_url)
-        repos_languages.append(languages)
 
-        repo_info = dict()
-        repo_info['html_url'] = repo.get('html_url')
-        repo_info['description'] = repo.get('description')
-        repo_info['name'] = repo.get('name')
-        repo_info['language'] = repo.get('language')
-        repo_info['size'] = repo.get('size')
-        repo_info['stargazers_count'] = repo.get('stargazers_count')
-        repos_info.append(repo_info)
-
-    projects_per_languages = dict()
-    languages_distribution = dict()
-    for repo in repos_languages:
-        for (language, bytes_lang) in repo.items():
-            if language in projects_per_languages:
-                projects_per_languages[language] += 1
-            else:
-                projects_per_languages[language] = 1
-
-            if language in languages_distribution:
-                languages_distribution[language] += bytes_lang
-            else:
-                languages_distribution[language] = bytes_lang
-    return projects_per_languages, languages_distribution, repos_info
+    return repo_response
 
     # projects_per_languages = {'JavaScript': 2,
     #                           'CSS': 4, 'HTML': 7, 'Python': 7}

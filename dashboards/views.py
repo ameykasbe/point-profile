@@ -18,8 +18,75 @@ def profile_analysis(request):
         user = request.POST.get('userid')
     else:
         return redirect('input')
-    projects_per_languages, lang_distribution, repos_info = gh.get_repo_data(
-        user)
+
+    # User info
+    user_info_response = gh.get_user_info(user)
+    try:
+        user_info_response.raise_for_status()
+    except Exception:
+        limit, remaining = gh.check_limit()
+        context = {
+            'limit': limit,
+            'remaining': remaining,
+            'error_reason': 'User Not Found!'
+        }
+        return render(request, 'dashboards/error-page.html', context)
+
+    user_info_response['github_id'] = '@' + user_info_response.get('login')
+    created_at = user_info_response.get('created_at')
+    created_at = datetime.datetime.fromisoformat(created_at[:-1])
+    user_info_response['created_at'] = created_at.date()
+
+    # Repository information
+    repo_response = gh.get_repo_data(user)
+    try:
+        repo_response.raise_for_status()
+    except Exception:
+        limit, remaining = gh.check_limit()
+        if limit == 0:
+            context = {
+                'limit': limit,
+                'remaining': remaining,
+                'error_reason': 'Requests limit reached. Please try again later!'
+            }
+        else:
+            context = {
+                'limit': limit,
+                'remaining': remaining,
+                'error_reason': 'Something went wrong. Please try again later!'
+            }
+        return render(request, 'dashboards/error-page.html', context)
+
+    repos_languages = list()
+    repos_info = list()
+    for repo in repo_response:
+        languages_url = repo.get('languages_url')
+        languages = get_response_text_dict(languages_url)
+        repos_languages.append(languages)
+
+        repo_info = dict()
+        repo_info['html_url'] = repo.get('html_url')
+        repo_info['description'] = repo.get('description')
+        repo_info['name'] = repo.get('name')
+        repo_info['language'] = repo.get('language')
+        repo_info['size'] = repo.get('size')
+        repo_info['stargazers_count'] = repo.get('stargazers_count')
+        repos_info.append(repo_info)
+
+    projects_per_languages = dict()
+    languages_distribution = dict()
+    for repo in repos_languages:
+        for (language, bytes_lang) in repo.items():
+            if language in projects_per_languages:
+                projects_per_languages[language] += 1
+            else:
+                projects_per_languages[language] = 1
+
+            if language in languages_distribution:
+                languages_distribution[language] += bytes_lang
+            else:
+                languages_distribution[language] = bytes_lang
+
     # Projects per languages
     languages = [key for key in projects_per_languages]
     num_projects = [value for key, value in projects_per_languages.items()]
@@ -38,16 +105,6 @@ def profile_analysis(request):
         if len(repo.get('description')) > 100:
             repo['description'] = repo['description'][:101] + '...'
 
-    # User info
-    user_info_response = gh.get_user_info(user)
-    user_info_response['github_id'] = '@' + user_info_response.get('login')
-    created_at = user_info_response.get('created_at')
-    created_at = datetime.datetime.fromisoformat(created_at[:-1])
-    user_info_response['created_at'] = created_at.date()
-
-    # Checking limit
-    limit, remaining = gh.check_limit()
-
     context = {
         'languages': languages,
         'num_projects': num_projects,
@@ -59,3 +116,7 @@ def profile_analysis(request):
         'remaining': remaining
     }
     return render(request, 'dashboards/profile-analysis.html', context)
+
+
+# TODO
+# Limit check
