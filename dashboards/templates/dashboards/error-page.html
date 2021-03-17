@@ -8,21 +8,10 @@
                 <div class="col s12 m6 offset-m3">
                     <i class="fab fa-github fa-4x"></i>
                     <h3>PointProfile</h3>
-                    <p class="error-message">User Not Found!</p>
+                    <p class="error-message">{{error_message}}</p>
                 </div>
             </div>
         </div> 
     </div>
-    <div class="section page-footer input-footer">
-        <div class="row">
-            <div class="col s2 offset-s10 requests-limit">
-                <div class="center">
-                    <h5>{{remaining}}/{{limit}}</h5>
-                    <p>Requests left</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    
 </body>
 {% endblock content %}

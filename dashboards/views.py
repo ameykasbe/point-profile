@@ -2,10 +2,16 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 import datetime
 from . import github as gh
+import requests
 
 
 def input(request):
     limit, remaining = gh.check_limit()
+    if limit == None and remaining == None:
+        context = {
+            'error_message': 'Something went wrong. Please try again later!'
+        }
+        return render(request, 'dashboards/error-page.html', context)
     context = {
         'limit': limit,
         'remaining': remaining
@@ -20,48 +26,50 @@ def profile_analysis(request):
         return redirect('input')
 
     # User info
-    user_info_response = gh.get_user_info(user)
+    response = gh.get_user_info(user)
     try:
-        user_info_response.raise_for_status()
+        response.raise_for_status()
     except Exception:
         limit, remaining = gh.check_limit()
-        context = {
-            'limit': limit,
-            'remaining': remaining,
-            'error_reason': 'User Not Found!'
-        }
+        if remaining == 0:
+            context = {
+                'error_message': 'Requests limit reached. Please try again later!'
+            }
+        else:
+            context = {
+                'error_message': 'User Not Found!1'
+            }
         return render(request, 'dashboards/error-page.html', context)
 
+    user_info_response = gh.get_json(response)
     user_info_response['github_id'] = '@' + user_info_response.get('login')
     created_at = user_info_response.get('created_at')
     created_at = datetime.datetime.fromisoformat(created_at[:-1])
     user_info_response['created_at'] = created_at.date()
 
     # Repository information
-    repo_response = gh.get_repo_data(user)
+    response = gh.get_repo_data(user)
     try:
-        repo_response.raise_for_status()
+        response.raise_for_status()
     except Exception:
         limit, remaining = gh.check_limit()
-        if limit == 0:
+        if remaining == 0:
             context = {
-                'limit': limit,
-                'remaining': remaining,
-                'error_reason': 'Requests limit reached. Please try again later!'
+                'error_message': 'Requests limit reached. Please try again later!'
             }
         else:
             context = {
-                'limit': limit,
-                'remaining': remaining,
-                'error_reason': 'Something went wrong. Please try again later!'
+                'error_message': 'Something went wrong. Please try again later!'
             }
         return render(request, 'dashboards/error-page.html', context)
 
+    repo_response = gh.get_json(response)
     repos_languages = list()
     repos_info = list()
     for repo in repo_response:
         languages_url = repo.get('languages_url')
-        languages = get_response_text_dict(languages_url)
+        res = requests.get(languages_url)
+        languages = gh.get_json(res)
         repos_languages.append(languages)
 
         repo_info = dict()
@@ -74,7 +82,7 @@ def profile_analysis(request):
         repos_info.append(repo_info)
 
     projects_per_languages = dict()
-    languages_distribution = dict()
+    lang_distribution = dict()
     for repo in repos_languages:
         for (language, bytes_lang) in repo.items():
             if language in projects_per_languages:
@@ -82,10 +90,10 @@ def profile_analysis(request):
             else:
                 projects_per_languages[language] = 1
 
-            if language in languages_distribution:
-                languages_distribution[language] += bytes_lang
+            if language in lang_distribution:
+                lang_distribution[language] += bytes_lang
             else:
-                languages_distribution[language] = bytes_lang
+                lang_distribution[language] = bytes_lang
 
     # Projects per languages
     languages = [key for key in projects_per_languages]
@@ -104,6 +112,8 @@ def profile_analysis(request):
         repo['size'] = str(repo['size']) + ' kB'
         if len(repo.get('description')) > 100:
             repo['description'] = repo['description'][:101] + '...'
+
+    limit, remaining = gh.check_limit()
 
     context = {
         'languages': languages,
