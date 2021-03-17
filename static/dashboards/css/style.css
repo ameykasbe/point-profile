@@ -60,3 +60,7 @@ html {
   .repo-card{
     padding: 30px !important;
   }
+
+  .error-message{
+    color: rgb(220, 225, 233);
+  }
