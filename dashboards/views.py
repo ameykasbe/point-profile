@@ -37,7 +37,7 @@ def profile_analysis(request):
             }
         else:
             context = {
-                'error_message': 'User Not Found!1'
+                'error_message': 'User Not Found!'
             }
         return render(request, 'dashboards/error-page.html', context)
 
