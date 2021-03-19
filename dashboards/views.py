@@ -66,11 +66,14 @@ def profile_analysis(request):
     repo_response = gh.get_json(response)
     repos_languages = list()
     repos_info = list()
+    main_languages = list()
     for repo in repo_response:
         languages_url = repo.get('languages_url')
+        main_language = repo.get('language')
         res = requests.get(languages_url)
         languages = gh.get_json(res)
         repos_languages.append(languages)
+        main_languages.append(main_language)
 
         repo_info = dict()
         repo_info['html_url'] = repo.get('html_url')
@@ -83,19 +86,20 @@ def profile_analysis(request):
         repo_info['stargazers_count'] = repo.get('stargazers_count')
         repos_info.append(repo_info)
 
-    projects_per_languages = dict()
     lang_distribution = dict()
     for repo in repos_languages:
         for (language, bytes_lang) in repo.items():
-            if language in projects_per_languages:
-                projects_per_languages[language] += 1
-            else:
-                projects_per_languages[language] = 1
-
             if language in lang_distribution:
                 lang_distribution[language] += bytes_lang
             else:
                 lang_distribution[language] = bytes_lang
+
+    projects_per_languages = dict()
+    for language in main_languages:
+        if language in projects_per_languages:
+            projects_per_languages[language] += 1
+        else:
+            projects_per_languages[language] = 1
 
     # Projects per languages
     languages = [key for key in projects_per_languages]
