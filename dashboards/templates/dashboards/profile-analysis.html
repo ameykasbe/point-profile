@@ -1,13 +1,13 @@
 {% extends 'dashboards/base.html' %}
 {% block content %}
-    
+
 <body>
     <section class="section profile-chart white-text">
         <div class="row">
             <div class="col s12">
                 <div class="requests-limit">
                     <h5>{{remaining}}/{{limit}}</h5>
-                    <p>Requests left</p>    
+                    <p>Requests left</p>
                 </div>
             </div>
         </div>
@@ -16,7 +16,7 @@
                 <img src="{{user_info.avatar_url}}" alt="" class="circle" height="200" width="200">
                 <h3>{{user_info.name}}</h3>
                 <h5><a href="{{user_info.html_url}}">{{user_info.github_id}}</a></h5>
-                <h5>{{user_info.bio}}</h5> 
+                <h5>{{user_info.bio}}</h5>
             </div>
             <div class="row">
                 <div class="col s2 offset-s3">
@@ -28,33 +28,33 @@
                 <div class="col s2">
                     <p><i class="material-icons left">date_range</i>{{user_info.created_at}}</p>
                 </div>
-                
+
             </div>
 
             <div class="row charts-row">
                 <div class="col l6 s12">
                     <div class="card center z-depth-5">
                         <div class="card-content">
-                            <span class="card-title black-text"><b>Repositores per language</b></span> 
-                            <canvas id="projects-language"> 
-                            </canvas>   
+                            <span class="card-title black-text"><b>Repositores per language</b></span>
+                            <canvas id="projects-language">
+                            </canvas>
                         </div>
-                    </div> 
+                    </div>
                 </div>
                 <div class="col l6 s12">
                     <div class="card">
                         <div class="card-content">
-                            <span class="card-title black-text"><b>Languages Distribution</b></span> 
-                            <canvas id="languages-distribution"> 
-                            </canvas>   
+                            <span class="card-title black-text"><b>Languages Distribution</b></span>
+                            <canvas id="languages-distribution">
+                            </canvas>
                         </div>
-                    </div> 
+                    </div>
                 </div>
-            </div>    
+            </div>
         </div>
     </section>
-   <section class="top-repo">
-    <div class="container">
+    <section class="top-repo">
+        <div class="container">
             <div class="row top-repo-row">
                 <div class="col s12">
                     <h4 class="top-repo-title">Top Repositories (By Stars)</h4>
@@ -71,7 +71,7 @@
                                 <br>
                                 <div class="left blue-grey-text text-lighten-2">{{repo.language}}</div>
                                 <div class="right blue-grey-text text-lighten-2">{{repo.size}}</div>
-                            </div> 
+                            </div>
                         </div>
                     </a>
                 </div>
@@ -80,13 +80,16 @@
 
             </div>
         </div>
-    </section> 
+    </section>
     <footer class="section profile-analysis-footer">
         <div class="container">
             <div class="row">
                 <div class="col s12 center footer-text">
-                    <p>Built with 
-                        <a href="www.djangoproject.com">Django</a> &middot; <a href="www.chartjs.org/">Chart.js</a> &middot; <a href="www.docs.github.com/en/rest">GitHub REST API</a> &middot; <a href="www.materializecss.com">Materialize CSS</a> and more!</p>
+                    <p>Built with
+                        <a href="www.djangoproject.com">Django</a> &middot; <a href="www.chartjs.org/">Chart.js</a>
+                        &middot; <a href="www.docs.github.com/en/rest">GitHub REST API</a> &middot; <a
+                            href="www.materializecss.com">Materialize CSS</a> and more!
+                    </p>
                 </div>
             </div>
         </div>
@@ -94,74 +97,74 @@
     <script>
         let projectsLanguage = document.getElementById('projects-language').getContext('2d');
 
-    // Global options
-    Chart.defaults.global.defaultFontFamily = 'Lato';
-    Chart.defaults.global.defaultFontSize = 18;
-    Chart.defaults.global.defaultFontColor  = '#777';
+        // Global options
+        Chart.defaults.global.defaultFontFamily = 'Lato';
+        Chart.defaults.global.defaultFontSize = 18;
+        Chart.defaults.global.defaultFontColor = '#777';
 
-    let myChart = new Chart(projectsLanguage, {
-        type: 'bar',// bar, horizontalBar, pie, line, doughnut, radar, polarArea
-        data: {
-            labels: {{languages | safe}},
-            datasets:[{
-                label: 'Repositores',
-                data: {{num_projects|safe}},
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.6)',
-                    'rgba(54, 162, 235, 0.6)',
-                    'rgba(255, 206, 86, 0.6)',
-                    'rgba(75, 192, 192, 0.6)',
-                    'rgba(153, 102, 255, 0.6)',
-                    'rgba(255, 159, 64, 0.6)',
-                    'rgba(255, 99, 132, 0.6)'
-                ],
-                borderWidth: 0,
-                borderColor: '#777',
-                hoverBorderWidth: 3,
-                hoverBorderColor: '#000'
+        let myChart = new Chart(projectsLanguage, {
+            type: 'bar',// bar, horizontalBar, pie, line, doughnut, radar, polarArea
+            data: {
+                labels: {{ languages | safe}},
+        datasets: [{
+            label: 'Repositores',
+            data: {{ num_projects| safe}},
+            backgroundColor: [
+            'rgba(255, 99, 132, 0.6)',
+            'rgba(54, 162, 235, 0.6)',
+            'rgba(255, 206, 86, 0.6)',
+            'rgba(75, 192, 192, 0.6)',
+            'rgba(153, 102, 255, 0.6)',
+            'rgba(255, 159, 64, 0.6)',
+            'rgba(255, 99, 132, 0.6)'
+        ],
+            borderWidth: 0,
+            borderColor: '#777',
+            hoverBorderWidth: 3,
+            hoverBorderColor: '#000'
             }],
             
         },
-            options: {
-                scales: {
-                    xAxes: [{
-                        gridLines: {
-                            display:true
-                        }
-                    }],
+        options: {
+            scales: {
+                xAxes: [{
+                    gridLines: {
+                        display: true
+                    }
+                }],
                     yAxes: [{
                         gridLines: {
-                            display:true
+                            display: true
                         },
                         ticks: {
                             beginAtZero: true
                         }
                     }]
-                },
-                title:{
-                    display: false,
+            },
+            title: {
+                display: false,
                     text: "Repositores per language",
-                    fontSize: 22
-                },
-                legend:{
-                    display: false,
+                        fontSize: 22
+            },
+            legend: {
+                display: false,
                     position: 'right',
-                    labels:{
-                        fontColor: '#000'
-                    }
-                },
-                layout:{
-                    padding: {
-                        left:50,
-                        right:0,
-                        bottom:0,
-                        top:0
-                    }
-                },
-                tooltips:{
-                    enabled:true
+                        labels: {
+                    fontColor: '#000'
                 }
             },
+            layout: {
+                padding: {
+                    left: 50,
+                        right: 0,
+                            bottom: 0,
+                                top: 0
+                }
+            },
+            tooltips: {
+                enabled: true
+            }
+        },
         });
 
     </script>
@@ -170,70 +173,70 @@
 
 
 
-    let myChart2 = new Chart(languagesDistribution, {
-        type: 'pie',// bar, horizontalBar, pie, line, doughnut, radar, polarArea
-        data: {
-            labels: {{languages_distribution | safe}},
-            datasets:[{
-                label: 'Population',
-                data: {{bytes_per_language|safe}},
-                backgroundColor: [  
-                    'rgba(255, 99, 132, 0.6)',
-                    'rgba(54, 162, 235, 0.6)',
-                    'rgba(255, 206, 86, 0.6)',
-                    'rgba(75, 192, 192, 0.6)',
-                    'rgba(153, 102, 255, 0.6)',
-                    'rgba(255, 159, 64, 0.6)',
-                    'rgba(255, 99, 132, 0.6)'
-                ],
-                borderWidth: 1,
-                borderColor: '#777',
-                hoverBorderWidth: 3,
-                hoverBorderColor: '#000'
+        let myChart2 = new Chart(languagesDistribution, {
+            type: 'pie',// bar, horizontalBar, pie, line, doughnut, radar, polarArea
+            data: {
+                labels: {{ languages_distribution | safe}},
+        datasets: [{
+            label: 'Population',
+            data: {{ bytes_per_language| safe}},
+            backgroundColor: [
+            'rgba(255, 99, 132, 0.6)',
+            'rgba(54, 162, 235, 0.6)',
+            'rgba(255, 206, 86, 0.6)',
+            'rgba(75, 192, 192, 0.6)',
+            'rgba(153, 102, 255, 0.6)',
+            'rgba(255, 159, 64, 0.6)',
+            'rgba(255, 99, 132, 0.6)'
+        ],
+            borderWidth: 1,
+            borderColor: '#777',
+            hoverBorderWidth: 3,
+            hoverBorderColor: '#000'
             }],
             
         },
-            options: {
-                title:{
-                    display: false,
+        options: {
+            title: {
+                display: false,
                     text: "Language Distribution",
-                    fontSize: 25
-                },
-                legend:{
-                    display: true,
+                        fontSize: 25
+            },
+            legend: {
+                display: true,
                     position: 'right',
-                    labels:{
-                        fontColor: '#000'
-                    }
-                },
-                layout:{
-                    padding: {
-                        left:50,
-                        right:0,
-                        bottom:0,
-                        top:0
-                    }
-                },
-                tooltips:{
-                    enabled:true
-                },
-                plugins: {
-                    datalabels: {
-                        formatter: (value, ctx) => {
-                            let datasets = ctx.chart.data.datasets;
-                            if (datasets.indexOf(ctx.dataset) === datasets.length - 1) {
+                        labels: {
+                    fontColor: '#000'
+                }
+            },
+            layout: {
+                padding: {
+                    left: 50,
+                        right: 0,
+                            bottom: 0,
+                                top: 0
+                }
+            },
+            tooltips: {
+                enabled: false
+            },
+            plugins: {
+                datalabels: {
+                    formatter: (value, ctx) => {
+                        let datasets = ctx.chart.data.datasets;
+                        if (datasets.indexOf(ctx.dataset) === datasets.length - 1) {
                             let sum = datasets[0].data.reduce((a, b) => a + b, 0);
                             let percentage = Math.round((value / sum) * 100) + '%';
                             return percentage;
-                            } else {
+                        } else {
                             return percentage;
-                            }
-                        },
-                    color: '#fff',
-                    }       
-                }
-                
-            },
+                        }
+                    },
+                        color: '#fff',
+                    }
+            }
+
+        },
         });
 
     </script>
