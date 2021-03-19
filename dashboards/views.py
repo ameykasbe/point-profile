@@ -75,6 +75,8 @@ def profile_analysis(request):
         repo_info = dict()
         repo_info['html_url'] = repo.get('html_url')
         repo_info['description'] = repo.get('description')
+        if repo_info['description'] == None:
+            repo_info['description'] = str()
         repo_info['name'] = repo.get('name')
         repo_info['language'] = repo.get('language')
         repo_info['size'] = repo.get('size')
