@@ -16,7 +16,7 @@
                 <img src="{{user_info.avatar_url}}" alt="" class="circle" height="200" width="200">
                 <h3>{{user_info.name}}</h3>
                 <h5><a href="{{user_info.html_url}}">{{user_info.github_id}}</a></h5>
-                <h5>{{user_info.bio}}</h5>
+                {% if user_info %} <h5>{{user_info.bio}}</h5> {% endif %}
             </div>
             <div class="row">
                 <div class="col s2 offset-s3">
