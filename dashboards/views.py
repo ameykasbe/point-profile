@@ -119,8 +119,8 @@ def profile_analysis(request):
 
     repos_info_sorted_stars = sorted(
         repos_info, key=lambda repo: repo.get('stargazers_count'), reverse=True)
-    if len(repos_info_sorted_stars) > 6:
-        repos_info_sorted_stars = repos_info_sorted_stars[:6]
+    if len(repos_info_sorted_stars) > 3:
+        repos_info_sorted_stars = repos_info_sorted_stars[:3]
     for repo in repos_info_sorted_stars:
         repo['size'] = str(repo['size']) + ' kB'
         if len(repo.get('description')) > 100:
